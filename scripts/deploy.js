@@ -7,7 +7,11 @@ const SpiritRouterAddress = "0x16327E3FbDaCA3bcF7E38F5Af2599D2DDc33aE52";
 const OperatorAddress = "0x44b4d3Cb8087030A83B07ba2E2803e6D313Cf845";
 
 /**
+ * DEPLOYMENT
  * npx hardhat run scripts/deploy.js --network mainnet
+ *
+ * VERIFICATION
+ * npx hardhat verify --network mainnet 0x1a0cB0EcD122707d7e3c543aF0025371e81f8b24 0x10b620b2dbac4faa7d7ffd71da486f5d44cd86f9 0x4fe6f19031239f105f753d1df8a0d24857d0caa2 0x6e2ad6527901c9664f016466b8DA1357a004db0f 0 0x16327E3FbDaCA3bcF7E38F5Af2599D2DDc33aE52 0x44b4d3Cb8087030A83B07ba2E2803e6D313Cf845
  */
 async function main() {
   const [deployer] = await ethers.getSigners();

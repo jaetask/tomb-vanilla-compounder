@@ -10,7 +10,14 @@ const FTMSCAN_KEY = process.env.FTMSCAN_API_KEY;
  */
 module.exports = {
   solidity: {
-    version: "0.8.9",
+    compilers: [
+      {
+        version: "0.5.16",
+      },
+      {
+        version: "0.8.9",
+      },
+    ],
     settings: {
       optimizer: {
         enabled: true,

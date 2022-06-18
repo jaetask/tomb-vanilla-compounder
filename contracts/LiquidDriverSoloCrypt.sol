@@ -41,6 +41,7 @@ contract LiquidDriverSoloCrypt is LiquidDriverVanillaYieldExtractor {
 
     // Run the vanilla Liquid driver routine
     function runRoutine() external onlyRole(OPERATOR_ROLE) {
+        _depositAnyLPIntoFarm();
         _claimAnyLqdrRewardsFromFarm();
     }
 }

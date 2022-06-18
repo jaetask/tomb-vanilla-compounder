@@ -64,9 +64,7 @@ contract LiquidDriverVanillaYieldExtractor is AccessControl {
         lqdr.safeTransfer(msg.sender, lqdr.balanceOf(address(this)));
     }
 
-    // this will harvest LQDR from the staked LP in the farm
     function _claimAnyLqdrRewardsFromFarm() internal {
-        // calling withdraw with amount as 0 simply claims any pending TSHAREs
         farm.harvest(poolId, address(this));
     }
 

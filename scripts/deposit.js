@@ -11,8 +11,11 @@ const DEV_ADDRESS = process.env.DEV_ADDRESS;
 const DEPLOYED_CONTRACT = process.env.DEPLOYED_CONTRACT_V1;
 
 /**
- * DEPLOYMENT
+ * COMMAND LINE
  * npx hardhat run scripts/deposit.js --network mainnet
+ *
+ * UNISWAP DOCS
+ * https://docs.uniswap.org/protocol/V2/reference/smart-contracts/pair
  */
 async function main() {
   const [depositor] = await ethers.getSigners();
@@ -22,20 +25,16 @@ async function main() {
   // we need to approve the deployed contract to spend the LP tokens
   const UniswapV2Pair = await ethers.getContractFactory("UniswapV2Pair");
   const spiritSwapLP = UniswapV2Pair.attach(SpiritSwapLqdrFtmLPAddress);
-  const amountToApprove = ethers.utils.parseEther("1");
+  const amountToApprove = ethers.utils.parseEther("0.1");
 
   // does the contract have approval? let's verify it
   const preAllowance = await spiritSwapLP.allowance(depositor.address, DEPLOYED_CONTRACT);
-
   if (preAllowance.gt(0)) {
     console.log("Already approved", preAllowance.toString());
-  }
-
-  if (preAllowance.eq(0)) {
+  } else if (preAllowance.eq(0)) {
     console.log("Contract does not have approval, taking action");
     const ApproveToken = await spiritSwapLP.approve(DEPLOYED_CONTRACT, amountToApprove);
     await ApproveToken.wait();
-
     console.log("Approved LP into the contract with the account:", amountToApprove.toString(), DEPLOYED_CONTRACT);
   }
 
@@ -45,22 +44,21 @@ async function main() {
   const liquidDriverSoloCrypt = await LiquidDriverSoloCrypt.attach(DEPLOYED_CONTRACT);
 
   // before we do anything funky, lets see balances
+  const preWalletBalance = await spiritSwapLP.balanceOf(depositor.address);
+  console.log("preWalletBalance", preWalletBalance);
   const preBalance = await spiritSwapLP.balanceOf(DEPLOYED_CONTRACT);
   console.log("preBalance", preBalance);
 
   //------------------------------------------------------
   // deposit the LP tokens into our contract
   const tx = await liquidDriverSoloCrypt.depositLP(amountToApprove, {
-    gasLimit: 3000000,
-    gasPrice: ethers.utils.parseUnits("3000", "gwei"),
+    gasLimit: 1000000,
+    gasPrice: ethers.utils.parseUnits("5000", "gwei"),
   });
   console.log("Deposited, awaiting confirmation");
   console.log("tx", tx);
-
   await tx.wait();
-
   console.log("Deposited into the contract with the account:", amountToApprove.toString());
-  return;
 }
 
 main()

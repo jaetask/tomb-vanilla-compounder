@@ -25,10 +25,7 @@ async function main() {
   const amountToApprove = ethers.utils.parseEther("1");
 
   // does the contract have approval? let's verify it
-  const preAllowance = await spiritSwapLP.allowance(
-    depositor.address,
-    DEPLOYED_CONTRACT
-  );
+  const preAllowance = await spiritSwapLP.allowance(depositor.address, DEPLOYED_CONTRACT);
 
   if (preAllowance.gt(0)) {
     console.log("Already approved", preAllowance.toString());
@@ -36,27 +33,16 @@ async function main() {
 
   if (preAllowance.eq(0)) {
     console.log("Contract does not have approval, taking action");
-    const ApproveToken = await spiritSwapLP.approve(
-      DEPLOYED_CONTRACT,
-      amountToApprove
-    );
+    const ApproveToken = await spiritSwapLP.approve(DEPLOYED_CONTRACT, amountToApprove);
     await ApproveToken.wait();
 
-    console.log(
-      "Approved LP into the contract with the account:",
-      amountToApprove.toString(),
-      DEPLOYED_CONTRACT
-    );
+    console.log("Approved LP into the contract with the account:", amountToApprove.toString(), DEPLOYED_CONTRACT);
   }
 
   //------------------------------------------------------
   // now we can deposit the LP into the contract
-  const LiquidDriverSoloCrypt = await ethers.getContractFactory(
-    "LiquidDriverSoloCrypt"
-  );
-  const liquidDriverSoloCrypt = await LiquidDriverSoloCrypt.attach(
-    DEPLOYED_CONTRACT
-  );
+  const LiquidDriverSoloCrypt = await ethers.getContractFactory("LiquidDriverSoloCrypt");
+  const liquidDriverSoloCrypt = await LiquidDriverSoloCrypt.attach(DEPLOYED_CONTRACT);
 
   // before we do anything funky, lets see balances
   const preBalance = await spiritSwapLP.balanceOf(DEPLOYED_CONTRACT);
@@ -73,10 +59,7 @@ async function main() {
 
   await tx.wait();
 
-  console.log(
-    "Deposited into the contract with the account:",
-    amountToApprove.toString()
-  );
+  console.log("Deposited into the contract with the account:", amountToApprove.toString());
   return;
 }
 

@@ -70,6 +70,14 @@ contract LiquidDriverVanillaYieldExtractor is AccessControl {
         farm.harvest(poolId, address(this));
     }
 
+    function pendingRewardsFromFarm() public view returns (uint256 pending) {
+        return _pendingRewardsFromFarm();
+    }
+
+    function _pendingRewardsFromFarm() internal view returns (uint256 pending) {
+        return farm.pendingLqdr(poolId, address(this));
+    }
+
     // no auto-compounding, we send the LP direct to this contract
     function _depositAnyLPIntoFarm() internal {
         uint256 contractLpBalance = spiritLqdrFtmLP.balanceOf(address(this));

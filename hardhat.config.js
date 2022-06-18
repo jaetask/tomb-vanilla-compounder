@@ -1,6 +1,6 @@
-require('dotenv').config();
+require("dotenv").config();
 require("@nomiclabs/hardhat-etherscan");
-require('@nomiclabs/hardhat-waffle');
+require("@nomiclabs/hardhat-waffle");
 
 const PRIVATE_KEY = process.env.DEPLOYER_PRIVATE_KEY;
 const FTMSCAN_KEY = process.env.FTMSCAN_API_KEY;
@@ -14,23 +14,23 @@ module.exports = {
     settings: {
       optimizer: {
         enabled: true,
-        runs: 200
-      }
-    }
+        runs: 200,
+      },
+    },
   },
   networks: {
     mainnet: {
       url: `https://rpcapi.fantom.network`,
       chainId: 250,
-      accounts: [`0x${PRIVATE_KEY}`]
+      accounts: [`0x${PRIVATE_KEY}`],
     },
     testnet: {
       url: `https://rpcapi-tracing.testnet.fantom.network`,
       chainId: 4002,
-      accounts: [`0x${PRIVATE_KEY}`]
+      accounts: [`0x${PRIVATE_KEY}`],
     },
   },
   etherscan: {
-    apiKey: FTMSCAN_KEY
-  }
+    apiKey: FTMSCAN_KEY,
+  },
 };

@@ -1,9 +1,10 @@
- const TombAddress = "0x6c021Ae822BEa943b2E66552bDe1D2696a53fbB7";
- const TShareAddress = "0x4cdF39285D7Ca8eB3f090fDA0C069ba5F4145B37";
- const SpookyTombFtmLPAddress = "0x2A651563C9d3Af67aE0388a5c8F89b867038089e";
- const MasonryAddress = "0x8764DE60236C5843D9faEB1B638fbCE962773B67";
- const CemeteryAddress = "0xcc0a87F7e7c693042a9Cc703661F5060c80ACb43";
- const SpookyRouterAddress = "0xF491e7B69E4244ad4002BC14e878a34207E38c29";
+const LqdrAddress = "0x10b620b2dbac4faa7d7ffd71da486f5d44cd86f9";
+const SpiritSwapLqdrFtmPoolId = 0;
+const SpiritSwapLqdrFtmLPAddress = "0x4fe6f19031239f105f753d1df8a0d24857d0caa2";
+const FarmProxyAddress = "0x6e2ad6527901c9664f016466b8DA1357a004db0f";
+// const FarmRealAddress = "0x5CEE2988184afE3CD807e0178B394259E8cdC56C"; This is the MasterChefV2
+const SpiritRouterAddress = "0x16327E3FbDaCA3bcF7E38F5Af2599D2DDc33aE52";
+const OperatorAddress = "0x44b4d3Cb8087030A83B07ba2E2803e6D313Cf845";
 
 async function main() {
   const [deployer] = await ethers.getSigners();
@@ -12,14 +13,16 @@ async function main() {
 
   console.log("Account balance:", (await deployer.getBalance()).toString());
 
-  const factory = await ethers.getContractFactory("TombVanillaCompounder");
+  const factory = await ethers.getContractFactory(
+    "LiquidDriverVanillaYieldExtractor"
+  );
   const contract = await factory.deploy(
-    TombAddress,
-    TShareAddress,
-    SpookyTombFtmLPAddress,
-    MasonryAddress,
-    CemeteryAddress,
-    SpookyRouterAddress,
+    LqdrAddress,
+    SpiritSwapLqdrFtmLPAddress,
+    SpiritSwapLqdrFtmPoolId,
+    FarmProxyAddress,
+    SpiritRouterAddress,
+    OperatorAddress
   );
 
   console.log("Contract address:", contract.address);

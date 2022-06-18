@@ -1,12 +1,14 @@
 # tomb-vanilla-compounder
 
 ### Prerequisite knowledge
+
 - General smart contract programming using Solidity and hardhat
 - Tomb's Cemetery and Masonry contracts to understand our interactions with them
 - ethers for scripts to test, deploy, and harvest (javascript)
 - (Bonus) AWS Lambda to be able to automate harvesting every 18 hours
 
 ### Simple solo-use smart contract to automate the "tomb-loop":
+
 1. Claim TSHARE rewards from Cemetery
 2. Claim TOMB rewards from Masonry
 3. Deposit TSHARE rewards into Masonry
@@ -16,7 +18,7 @@
 ### Key Solidity files
 
 - The main smart contract of interest is `TombSoloCrypt`. This is the one you want to deploy to mainnet. Anybody can deposit LP tokens or TSHAREs into it, but only the owner can withdraw any tokens. The function `runRoutine()` is the one that executes the "tomb-loop."
-- A lot of the internal functions have been abstracted away and pulled up into a base contract called `TombVanillaCompounder`.
+- A lot of the internal functions have been abstracted away and pulled up into a base contract called `LiquidDriverVanillaYieldExtractor`.
 - You can ignore `TombMultiCrypt`
 
 ### Key javascript files

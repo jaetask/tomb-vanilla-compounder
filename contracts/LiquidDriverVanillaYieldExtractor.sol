@@ -35,8 +35,8 @@ contract LiquidDriverVanillaYieldExtractor is AccessControl {
     ) {
         lqdr = IERC20(_lqdr);
         spiritLqdrFtmLP = IUniswapV2Pair(_spiritLqdrFtmLP);
-        poolId = _poolId;
         farm = ILiquidDriverMasterChefV2(_farm);
+        poolId = _poolId;
         spiritRouter = IUniswapV2Router02(_spookyRouter);
 
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
@@ -72,10 +72,10 @@ contract LiquidDriverVanillaYieldExtractor is AccessControl {
 
     // no auto-compounding, we send the LP direct to this contract
     function _depositAnyLPIntoFarm() internal {
-        uint256 contractLPBalance = spiritLqdrFtmLP.balanceOf(address(this));
-        if (contractLPBalance > 0) {
-            spiritLqdrFtmLP.approve(address(farm), contractLPBalance);
-            farm.deposit(0, contractLPBalance, address(this));
+        uint256 contractLpBalance = spiritLqdrFtmLP.balanceOf(address(this));
+        if (contractLpBalance > 0) {
+            spiritLqdrFtmLP.approve(address(farm), contractLpBalance);
+            farm.deposit(poolId, contractLpBalance, address(this));
         }
     }
 }

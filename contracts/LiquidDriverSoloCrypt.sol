@@ -21,7 +21,9 @@ contract LiquidDriverSoloCrypt is LiquidDriverVanillaYieldExtractor {
         _poolId,
         _spiritRouter,
         _operator
-    ) { }
+    ) {
+        poolId = _poolId;
+     }
  
     // Deposit LPs into this contract, which then get deposited into the Liquid Driver farm
     // The caller must have approved this contract to spend the LPs beforehand
@@ -29,11 +31,11 @@ contract LiquidDriverSoloCrypt is LiquidDriverVanillaYieldExtractor {
         require(spiritLqdrFtmLP.allowance(msg.sender, address(this)) >= _amount, "Insufficient LP allowance!");
         spiritLqdrFtmLP.transferFrom(msg.sender, address(this), _amount);
         spiritLqdrFtmLP.approve(address(farm), _amount);
-        farm.deposit(0, _amount, address(this));
+        farm.deposit(poolId, _amount, address(this));
     }
 
     function withdrawLP() external onlyRole(DEFAULT_ADMIN_ROLE) {
-        farm.withdraw(0, getLPBalanceAtFarm(), address(this));
+        farm.withdraw(poolId, getLPBalanceAtFarm(), address(this));
         spiritLqdrFtmLP.transfer(msg.sender, spiritLqdrFtmLP.balanceOf(address(this)));
     }
 

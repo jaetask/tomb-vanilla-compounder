@@ -6,6 +6,9 @@ const FarmProxyAddress = "0x6e2ad6527901c9664f016466b8DA1357a004db0f";
 const SpiritRouterAddress = "0x16327E3FbDaCA3bcF7E38F5Af2599D2DDc33aE52";
 const OperatorAddress = "0x44b4d3Cb8087030A83B07ba2E2803e6D313Cf845";
 
+/**
+ * npx hardhat run scripts/deploy.js --network mainnet
+ */
 async function main() {
   const [deployer] = await ethers.getSigners();
 
@@ -13,14 +16,13 @@ async function main() {
 
   console.log("Account balance:", (await deployer.getBalance()).toString());
 
-  const factory = await ethers.getContractFactory(
-    "LiquidDriverVanillaYieldExtractor"
-  );
+  const factory = await ethers.getContractFactory("LiquidDriverSoloCrypt");
+
   const contract = await factory.deploy(
     LqdrAddress,
     SpiritSwapLqdrFtmLPAddress,
-    SpiritSwapLqdrFtmPoolId,
     FarmProxyAddress,
+    SpiritSwapLqdrFtmPoolId,
     SpiritRouterAddress,
     OperatorAddress
   );

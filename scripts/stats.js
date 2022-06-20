@@ -9,7 +9,6 @@ const DeployedContract = "0x1a0cb0ecd122707d7e3c543af0025371e81f8b24";
 
 const DEV_ADDRESS = process.env.DEV_ADDRESS;
 const DEPLOYED_CONTRACT = process.env.DEPLOYED_CONTRACT_V1;
-import { formatUnits } from "ethers/utils";
 
 /**
  * COMMAND LINE
@@ -28,6 +27,8 @@ async function main() {
   const spiritSwapLP = UniswapV2Pair.attach(SpiritSwapLqdrFtmLPAddress);
   const LiquidDriverSoloCrypt = await ethers.getContractFactory("LiquidDriverSoloCrypt");
   const liquidDriverSoloCrypt = await LiquidDriverSoloCrypt.attach(DEPLOYED_CONTRACT);
+  const Erc20 = await ethers.getContractFactory("ERC20");
+  const lqdr = Erc20.attach(LqdrAddress);
 
   // does the crypt have any allowance?
   const preAllowance = await spiritSwapLP.allowance(depositor.address, DEPLOYED_CONTRACT);
@@ -39,19 +40,25 @@ async function main() {
 
   // how much LP is in the wallet?
   const lpInTheWallet = await spiritSwapLP.balanceOf(depositor.address);
-  console.log("lpInTheWallet", formatUnits(lpInTheWallet));
+  console.log("lpInTheWallet", ethers.utils.formatUnits(lpInTheWallet));
 
   // how much LP is in the crypt?
   const lpInTheCrypt = await spiritSwapLP.balanceOf(DEPLOYED_CONTRACT);
-  console.log("lpInTheCrypt", formatUnits(lpInTheCrypt));
+  console.log("lpInTheCrypt", ethers.utils.formatUnits(lpInTheCrypt));
 
   // how much LP has the contract staked in the farm?
   const lpInTheFarm = await liquidDriverSoloCrypt.getLPBalanceAtFarm();
-  console.log("lpInTheFarm", formatUnits(lpInTheFarm));
-
-  // how many pending LQDR rewards are there?
+  console.log("lpInTheFarm", ethers.utils.formatUnits(lpInTheFarm));
 
   // how much LQDR is in the contract
+  const lqdrInTheContract = await lqdr.balanceOf(DEPLOYED_CONTRACT);
+  console.log("lqdrInTheContract", ethers.utils.formatUnits(lqdrInTheContract));
+
+  // THIS IS NOT DEPLOYED YET
+  // how many pending LQDR rewards are there?
+  // const pendingRewardsAtFarm = await liquidDriverSoloCrypt.pendingRewardsFromFarm();
+  // console.log("pendingRewardsAtFarm", ethers.utils.formatUnits(pendingRewardsAtFarm));
+  console.warn("Pending rewards at farm not deployed yet, please check again later");
 }
 
 main()

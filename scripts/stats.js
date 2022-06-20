@@ -5,7 +5,6 @@ const FarmProxyAddress = "0x6e2ad6527901c9664f016466b8DA1357a004db0f";
 // const FarmRealAddress = "0x5CEE2988184afE3CD807e0178B394259E8cdC56C"; This is the MasterChefV2
 const SpiritRouterAddress = "0x16327E3FbDaCA3bcF7E38F5Af2599D2DDc33aE52";
 const OperatorAddress = "0x44b4d3Cb8087030A83B07ba2E2803e6D313Cf845";
-const DeployedContract = "0x1a0cb0ecd122707d7e3c543af0025371e81f8b24";
 
 const DEV_ADDRESS = process.env.DEV_ADDRESS;
 const DEPLOYED_CONTRACT = process.env.DEPLOYED_CONTRACT_V1;
@@ -54,11 +53,9 @@ async function main() {
   const lqdrInTheContract = await lqdr.balanceOf(DEPLOYED_CONTRACT);
   console.log("lqdrInTheContract", ethers.utils.formatUnits(lqdrInTheContract));
 
-  // THIS IS NOT DEPLOYED YET
   // how many pending LQDR rewards are there?
-  // const pendingRewardsAtFarm = await liquidDriverSoloCrypt.pendingRewardsFromFarm();
-  // console.log("pendingRewardsAtFarm", ethers.utils.formatUnits(pendingRewardsAtFarm));
-  console.warn("Pending rewards at farm not deployed yet, please check again later");
+  const pendingRewardsAtFarm = await liquidDriverSoloCrypt.pendingRewardsFromFarm();
+  console.log("pendingRewardsAtFarm", ethers.utils.formatUnits(pendingRewardsAtFarm));
 }
 
 main()

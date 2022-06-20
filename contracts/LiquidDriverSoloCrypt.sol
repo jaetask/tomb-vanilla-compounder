@@ -35,6 +35,7 @@ contract LiquidDriverSoloCrypt is LiquidDriverVanillaYieldExtractor {
     }
 
     function withdrawLP() external onlyRole(DEFAULT_ADMIN_ROLE) {
+        _claimAnyLqdrRewardsFromFarm();
         farm.withdraw(poolId, getLPBalanceAtFarm(), address(this));
         spiritLqdrFtmLP.transfer(msg.sender, spiritLqdrFtmLP.balanceOf(address(this)));
     }

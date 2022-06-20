@@ -11,7 +11,7 @@ const OperatorAddress = "0x44b4d3Cb8087030A83B07ba2E2803e6D313Cf845";
  * npx hardhat run scripts/deploy.js --network mainnet
  *
  * VERIFICATION
- * npx hardhat verify --network mainnet 0x1a0cB0EcD122707d7e3c543aF0025371e81f8b24 0x10b620b2dbac4faa7d7ffd71da486f5d44cd86f9 0x4fe6f19031239f105f753d1df8a0d24857d0caa2 0x6e2ad6527901c9664f016466b8DA1357a004db0f 0 0x16327E3FbDaCA3bcF7E38F5Af2599D2DDc33aE52 0x44b4d3Cb8087030A83B07ba2E2803e6D313Cf845
+ * npx hardhat verify --network mainnet 0x61f7AeeBF4c6b371e1989fF87Adf7D82215A208e 0x10b620b2dbac4faa7d7ffd71da486f5d44cd86f9 0x4fe6f19031239f105f753d1df8a0d24857d0caa2 0x6e2ad6527901c9664f016466b8DA1357a004db0f 0 0x16327E3FbDaCA3bcF7E38F5Af2599D2DDc33aE52 0x44b4d3Cb8087030A83B07ba2E2803e6D313Cf845
  */
 async function main() {
   const [deployer] = await ethers.getSigners();
@@ -22,16 +22,23 @@ async function main() {
 
   const factory = await ethers.getContractFactory("LiquidDriverSoloCrypt");
 
-  const contract = await factory.deploy(
-    LqdrAddress,
-    SpiritSwapLqdrFtmLPAddress,
-    FarmProxyAddress,
-    SpiritSwapLqdrFtmPoolId,
-    SpiritRouterAddress,
-    OperatorAddress
-  );
+  const contract = await factory
+    .connect(deployer)
+    .deploy(
+      LqdrAddress,
+      SpiritSwapLqdrFtmLPAddress,
+      FarmProxyAddress,
+      SpiritSwapLqdrFtmPoolId,
+      SpiritRouterAddress,
+      OperatorAddress
+    );
 
   console.log("Contract address:", contract.address);
+  console.log("");
+  console.log("Please verify the contract");
+  console.log(
+    `npx hardhat verify --network mainnet ${contract.address} ${LqdrAddress} ${SpiritSwapLqdrFtmLPAddress} ${FarmProxyAddress} ${SpiritSwapLqdrFtmPoolId} ${SpiritRouterAddress} ${OperatorAddress}`
+  );
 }
 
 main()

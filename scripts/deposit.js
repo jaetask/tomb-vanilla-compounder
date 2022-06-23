@@ -25,7 +25,7 @@ async function main() {
   // we need to approve the deployed contract to spend the LP tokens
   const UniswapV2Pair = await ethers.getContractFactory("UniswapV2Pair");
   const spiritSwapLP = UniswapV2Pair.attach(SpiritSwapLqdrFtmLPAddress);
-  const amountToDeposit = ethers.utils.parseEther("3");
+  const amountToDeposit = ethers.utils.parseEther("0.0518417");
 
   // does the contract have approval? let's verify it
   const preAllowance = await spiritSwapLP.allowance(depositor.address, DEPLOYED_CONTRACT);

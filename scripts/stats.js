@@ -37,25 +37,35 @@ async function main() {
     console.log("Crypt out of allowance");
   }
 
+  console.log("");
+  console.log("LP");
+
   // how much LP is in the wallet?
   const lpInTheWallet = await spiritSwapLP.balanceOf(depositor.address);
-  console.log("lpInTheWallet", ethers.utils.formatUnits(lpInTheWallet));
+  console.log("- In wallet:", ethers.utils.formatUnits(lpInTheWallet));
 
   // how much LP is in the crypt?
   const lpInTheCrypt = await spiritSwapLP.balanceOf(DEPLOYED_CONTRACT);
-  console.log("lpInTheCrypt", ethers.utils.formatUnits(lpInTheCrypt));
+  console.log("- In crypt:", ethers.utils.formatUnits(lpInTheCrypt));
 
   // how much LP has the contract staked in the farm?
   const lpInTheFarm = await liquidDriverSoloCrypt.getLPBalanceAtFarm();
-  console.log("lpInTheFarm", ethers.utils.formatUnits(lpInTheFarm));
+  console.log("- In farm:", ethers.utils.formatUnits(lpInTheFarm));
+
+  console.log("");
+  console.log("LQDR");
+
+  // how much LQDR is in the wallet
+  const lqdrInTheWallet = await lqdr.balanceOf(depositor.address);
+  console.log("- In wallet", ethers.utils.formatUnits(lqdrInTheWallet));
 
   // how much LQDR is in the contract
   const lqdrInTheContract = await lqdr.balanceOf(DEPLOYED_CONTRACT);
-  console.log("lqdrInTheContract", ethers.utils.formatUnits(lqdrInTheContract));
+  console.log("- In contract", ethers.utils.formatUnits(lqdrInTheContract));
 
   // how many pending LQDR rewards are there?
   const pendingRewardsAtFarm = await liquidDriverSoloCrypt.pendingRewardsFromFarm();
-  console.log("pendingRewardsAtFarm", ethers.utils.formatUnits(pendingRewardsAtFarm));
+  console.log("- Pending in farm", ethers.utils.formatUnits(pendingRewardsAtFarm));
 }
 
 main()
